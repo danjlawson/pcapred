@@ -1,0 +1,15 @@
+Package: pcapred
+Type: Package
+Title: Produce PC Eigenvector Predictions From Plink Input Data And Loadings
+Version: 0.1.0
+Authors@R: person("Daniel", "Lawson", email = "dan.lawson@bristol.ac.uk", role = c("aut", "cre"))
+Description: Given PCA loadings from flashpca, plink, fastpca, etc and your own data, perform some sanity checking and preoduce PC loadings for your own data, stored in a PLINK format bed file.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+	data.table,
+	pcapred.ukbpcs18
+Remotes:
+	danjlawson/pcapred.ukbpcs18
+RoxygenNote: 7.0.1
