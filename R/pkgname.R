@@ -11,11 +11,13 @@
 #' \dontrun{
 #' library("pcapred")
 #' 
-#' mydata=1000G_tiny() # Gets the location of the tiny bim/bed/fam data included in pcapred
+#' mydata=pcapred.ref::onek_genomes_tiny() # Gets the file location of
+#'   # the tiny bim/bed/fam data included in pcapred's data package, pcapred.ref
 #' 
 #' dat=readbed(mydata) # Read "your" data
-#' dat=mergeref(dat)     # Merge with the reference
-#'                 # (using the included standard reference of 18 UK Biobank Pcs by default)
+#' dat=mergeref(dat) # Merge with the reference
+#'                 # (using the included standard reference of
+#'                 # 18 UK Biobank Pcs by default)
 #' pred=predictpcs(dat)  # Predict the first 18 UK Biobank PCs
 #' writepred("projected.eigenvals",dat,pred) # Write output in plink --covar format
 #' }

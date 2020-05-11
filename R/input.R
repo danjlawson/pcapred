@@ -98,7 +98,7 @@ readsnpstats<-function(afreqfile,...){
 #' @export
 #' @examples
 #' \dontrun{
-#' tfile=gsub(".load.gz","",system.file("extdata","ukb_pcs_18.load.gz",package="pcapred"))
+#' tfile=pcapred.ref::ukb_pcs_18()
 #' ref=readreference(tfile)
 #' }
 readreference <- function(fileroot,mode="flashpca",

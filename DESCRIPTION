@@ -9,7 +9,10 @@ Encoding: UTF-8
 LazyData: true
 Imports:
 	data.table,
-	pcapred.ukbpcs18
+	pcapred.ref
+Suggests:
+	bigmemory,
+	pcapred.largedata
 Remotes:
-	danjlawson/pcapred.ukbpcs18
+	danjlawson/pcapred.ref
 RoxygenNote: 7.0.1

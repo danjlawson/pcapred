@@ -180,7 +180,7 @@ getind=function(bed,x){
 #' Harmonise your dataset with a reference, performing sanity checks and standardization of REF/ALT alleles.
 #' 
 #' @param dat An object of class "rawdata" as returned by \code{\link{readinput}}.
-#' @param ref (default: the provided \code{\link[pcapred.ukbpcs18]{ukb_pcs_18}}) The reference dataset of class "referencedata" with which you want to merge your data. This is as returned by \code{link{readreference}}.
+#' @param ref (default: the provided \code{\link[pcapred.ref]{ukb_pcs_18}}) The reference dataset of class "referencedata" with which you want to merge your data. This is as returned by \code{link{readreference}}.
 #' @param mergeon (default ID) how to merge the SNPs. "ID" is always available but assumes you have rsids for the data. Alternative is "CHRPOS" which uses the extended freq information we provide in the reference dataset.
 #' @param verbose whether to say which algorithm is being used
 #' @return An object of class "mergeddata" which is a list containing:
@@ -196,7 +196,7 @@ getind=function(bed,x){
 #' \item flip A boolean vector of length = length(datkeep) for whether the alleles of that SNP need flipping
 #' }
 #' @export
-mergeref=function(dat,ref=readreference(pcapred.ukbpcs18::ukb_pcs_18()),mergeon="ID",
+mergeref=function(dat,ref=readreference(pcapred.ref::ukb_pcs_18()),mergeon="ID",
                      verbose=TRUE){
     dat$snpstats=ref$snpstats
     dat$snpweights=ref$snpweights

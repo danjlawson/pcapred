@@ -6,7 +6,7 @@
 \usage{
 mergeref(
   dat,
-  ref = readreference(pcapred.ukbpcs18::ukb_pcs_18()),
+  ref = readreference(pcapred.ref::ukb_pcs_18()),
   mergeon = "ID",
   verbose = TRUE
 )
@@ -14,7 +14,7 @@ mergeref(
 \arguments{
 \item{dat}{An object of class "rawdata" as returned by \code{\link{readinput}}.}
 
-\item{ref}{(default: the provided \code{\link[pcapred.ukbpcs18]{ukb_pcs_18}}) The reference dataset of class "referencedata" with which you want to merge your data. This is as returned by \code{link{readreference}}.}
+\item{ref}{(default: the provided \code{\link[pcapred.ref]{ukb_pcs_18}}) The reference dataset of class "referencedata" with which you want to merge your data. This is as returned by \code{link{readreference}}.}
 
 \item{mergeon}{(default ID) how to merge the SNPs. "ID" is always available but assumes you have rsids for the data. Alternative is "CHRPOS" which uses the extended freq information we provide in the reference dataset.}
 

@@ -12,7 +12,22 @@ Install the package using:
 remotes::install_github("danjlawson/pcapred")
 ```
 
-An entire analysis can be performed with the following:
+## A complete example
+
+We have provided a sample dataset from 1000 Genomes in bim/bed/fam format.
+
+```{r}
+library("pcapred")
+mydata=pcapred.ref::onek_genomes_tiny() # Gets the file location of the tiny bim/bed/fam data included in pcapred's helper data package, pcapred.ref
+dat=readbed(mydata) # Read "your" data
+dat=mergeref(dat)     # Merge with the reference (using the included standard reference of 18 UK Biobank Pcs by default)
+pred=predictpcs(dat)  # Predict the first 18 UK Biobank PCs
+writepred("projected.eigenvals",dat,pred) # Write output in plink --covar format
+```
+
+## Modification for your data:
+
+You just change the file location to point to your own data.
 
 ```{r}
 library("pcapred")
@@ -20,19 +35,6 @@ dat=readbed("path/to/plink/bimbedfamroot") # omit the .bed file ending
 dat=mergeref(dat) # Merge your dataset with the provided reference
 pred=predictpcs(dat) # Predict the first 18 UK Biobank PCs
 writepred("/path/to/projected.eigenvals",dat,pred) # Write the PCs in the correct format for plink's --covar command.
-```
-
-## A complete example
-
-We have provided a sample dataset from 1000 Genomes in bim/bed/fam format.
-
-```{r}
-library("pcapred")
-mydata=onek_genomes_tiny() # Gets the location of the tiny bim/bed/fam data included in pcapred
-dat=readbed(mydata) # Read "your" data
-dat=mergeref(dat)     # Merge with the reference (using the included standard reference of 18 UK Biobank Pcs by default)
-pred=predictpcs(dat)  # Predict the first 18 UK Biobank PCs
-writepred("projected.eigenvals",dat,pred) # Write output in plink --covar format
 ```
 
 ## A real example
@@ -47,7 +49,7 @@ download.file("https://www.dropbox.com/s/op9osq6luy3pjg8/all_phase3.pvar.zst?dl=
               destfile = "all_phase3.pvar.zst")
 download.file("https://www.dropbox.com/s/yozrzsdrwqej63q/phase3_corrected.psam?dl=1",
 destfile = "all_phase3.psam")
-system(paste0("zless ", ukb_pcs_18(),".load.gz | cut -f1-6 > ref.bim"))
+system(paste0("zless ", pcapred.ref::ukb_pcs_18(),".load.gz | cut -f1-6 > ref.bim"))
 system("plink2 --zst-decompress all_phase3.pgen.zst > all_phase3.pgen")
 system("plink2 --pfile all_phase3 vzs --extract ref.bim --make-bed --out 1000G_forPCA")
 unlink(c("all_phase3.pgen.zst","all_phase3.psam","all_phase3.pvar.zst","all_phase3.pgen","ref.bim"))
@@ -78,7 +80,7 @@ The missing-data aware algorithm is automatically used where necessary. It is a 
 
 ## Limitations
 
-As there is no parallelisation or memory management, it will take around 7 hours to process all 500K UK Biobank participants. You will need about 32Gb of memory.
+There is no parallelisation or memory management. It takes around 6-7 hours to process all 500K UK Biobank participants. You will need about 32Gb of memory.
 
 Merging is currently done best on IDs.
 
