@@ -10,19 +10,22 @@
 #' @return A matrix of data with the additional attribute "idx" referring to the indexes of the returned individuals.
 #' @export
 get_data=function(bed,i,meanimpute=FALSE,normalise=TRUE,verbose=TRUE){
+    if(!is(bed,"rbed")) stop("bed must be of class rbed")
     if(length(i)>1){
-        r=lapply(i,function(ii)get_data(bed,ii,verbose))
+        r=lapply(i,function(ii)get_data(bed,ii,meanimpute=meanimpute,
+                                        normalise=normalise,verbose=verbose))
         ridx=lapply(r,function(x)attr(x,"idx"))
         rr=do.call("rbind",r)
         attr(rr,"idx")=do.call("c",ridx)
         return(rr)
     }
     localdata=(getinds(bed,i))
-    if(length(bed$datkeep)>0){ #is(bed,"mergedbed")
+    if(is(bed,"mergedrbed")) { 
         if(normalise)localdata=normalise(localdata,
                             bed$snpstats$ALT_FREQS[bed$datkeep],
                             meanimpute=meanimpute)
     }else{
+        if(all(is.null(bed$snpstats$ALT_FREQS)))stop("rbed object requires SNP frequencies when normalise=TRUE. Provide these with bed$snpstats = readsnpstats(afreqfile) or bed$snpstats=data.frame(ALT_FREQS=getfreqs(bed))")
         localdata=normalise(localdata,
                             bed$snpstats$ALT_FREQS,
                             meanimpute=meanimpute)
