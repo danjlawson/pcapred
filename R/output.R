@@ -7,9 +7,9 @@
 #' @return NULL, invisibly
 #' @export
 writepred=function(outfile,dat,pred){
-    if(class(dat)=="mergeddata") {
+    if(is(dat,"mergeddata")) {
         indinfo=dat$indinfo
-    }else if(class(dat)=="mergedrbed"){
+    }else if(is(dat,"mergedrbed")){
         indinfo=dat$indinfo
     }else{
         indinfo=dat

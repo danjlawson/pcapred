@@ -24,6 +24,7 @@
 #' 
 #'
 #' @keywords internal
+#' @importFrom methods is
 #' @references To follow
 "_PACKAGE"
 #> [1] "_PACKAGE"

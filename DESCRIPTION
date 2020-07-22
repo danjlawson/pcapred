@@ -8,6 +8,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
+	methods,
 	data.table,
 	pcapred.ref
 Suggests:
@@ -15,4 +16,4 @@ Suggests:
 	pcapred.largedata
 Remotes:
 	danjlawson/pcapred.ref
-RoxygenNote: 7.0.1
+RoxygenNote: 7.1.0
