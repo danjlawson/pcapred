@@ -24,7 +24,7 @@ get_data=function(bed,i,meanimpute=FALSE,normalise=TRUE,verbose=TRUE){
         if(normalise)localdata=normalise(localdata,
                             bed$snpstats$ALT_FREQS[bed$datkeep],
                             meanimpute=meanimpute)
-    }else{
+    }else if(normalise){
         if(all(is.null(bed$snpstats$ALT_FREQS)))stop("rbed object requires SNP frequencies when normalise=TRUE. Provide these with bed$snpstats = readsnpstats(afreqfile) or bed$snpstats=data.frame(ALT_FREQS=getfreqs(bed))")
         localdata=normalise(localdata,
                             bed$snpstats$ALT_FREQS,

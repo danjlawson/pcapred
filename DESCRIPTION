@@ -13,6 +13,7 @@ Imports:
 	pcapred.ref
 Suggests:
 	bigmemory,
+	BMS,
 	pcapred.largedata
 Remotes:
 	danjlawson/pcapred.ref
