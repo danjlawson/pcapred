@@ -14,7 +14,7 @@
 #' 
 bedashap=function(dat,ploidy=2){
     ## Convert genotype data into haplotype data
-    if(!is(mat,"rbed")) stop("Must provide rbed object as produced by readbed!")
+    if(!is(dat,"rbed")) stop("Must provide rbed object as produced by readbed!")
     mat=bedasmatrix(dat,normalise=FALSE)
     ## We create "unphased" haplotypes by randomly assigning SNPs to haplotypes
     ret=matrix(0,dim(mat)[1]*ploidy,dim(mat)[2])
@@ -37,15 +37,33 @@ bedashap=function(dat,ploidy=2){
     r
 }
 
-haps2hex=function(hmat){
+#' @title Convert binary haplotype format to hex format
+#' @description Convert a matrix of 0s and 1s into a matrix of 0-f hex values, each describing 4 snps
+#' @param hmat A binary matrix of size N by L
+#' @param direction Either snpwise or hapwise, controls whether we place all values for a snp together (snpwise) or for a haplotype
+#' @return A character matrix of size N by ceiling(L/4) of hex values
+#' @export
+haps2hex=function(hmat,direction="snpwise"){
     requireNamespace("BMS")
-    if(dim(hmat)[2]/4 != floor(dim(hmat)[2]/4)){
-        hmat=cbind(hmat,matrix(0,nrow=dim(hmat)[1],dim(hmat)[2]%%4))
+    if(direction=="hapwise"){
+        if(dim(hmat)[2]/4 != floor(dim(hmat)[2]/4)){
+            hmat=cbind(hmat,matrix(0,nrow=dim(hmat)[1],dim(hmat)[2]%%4))
+        }
+        lhex=dim(hmat)[2]/4
+        r=sapply(1:lhex,function(h){
+            strsplit(BMS::bin2hex(t(hmat[,4*(h-1)+1:4])),"")[[1]]
+        })
+    }else if(direction=="snpwise"){
+        if(dim(hmat)[1]/4 != floor(dim(hmat)[1]/4)){
+            hmat=rbind(hmat,matrix(0,nrow=dim(hmat)[1]%%4,dim(hmat)[2]))
+        }
+        lhex=dim(hmat)[1]/4
+        r=sapply(1:lhex,function(h){
+            strsplit(BMS::bin2hex(hmat[4*(h-1)+1:4,]),"")[[1]]
+        })
+    }else{
+        stop("Unrecognised direction in haps2hex. Options are snpwise or hapwise.")
     }
-    lhex=dim(hmat)[2]/4
-    r=sapply(1:lhex,function(h){
-        strsplit(BMS::bin2hex(t(hmat[,4*(h-1)+1:4])),"")[[1]]
-    })
     r
 }
     
@@ -61,24 +79,25 @@ haps2hex=function(hmat){
 #' 
 #' @param dat an hapmatrix object as created by \code{\link{bedashap}}.
 #' @param fileroot the file root of the outputs.
-#' @param major (default="hap") whether to flatten the matrix by reporting each haplotype in sequence, or (if major="snp") each set of 4 snps in sequence.
+#' @param direction Either snpwise or hapwise, controls whether we place all values for a snp together (snpwise) or for a haplotype
 #' @return NULL invisibly
 #' @export
 #' 
-writebinhap=function(dat,fileroot,major="hap"){
-    ## hap == row major, means give each haplotype as a contiguous string
-    ## snp == column major, means give each set of 4-snps as a contiguous string
+writebinhap=function(dat,fileroot,direction="snpwise"){
+    ## hapwise == row major, means give each haplotype as a contiguous string
+    ## snpwise == column major, means give each snp as a contiguous string
     ## writes a haplotype object
     if(!is(dat,"hapmatrix")) stop("dat must be a hapmatrix object as returned by bedashap")
-    if(major=="hap"){
-        d=paste(t(haps2hex(dat$data)),collapse="")
-        writeLines(d,paste0(fileroot,".binhaps"))
-    }else if(major=="snp"){
-        d=paste(haps2hex(dat$data),collapse="")
-        writeLines(d,paste0(fileroot,".tbinhaps"))
+    if(direction=="hapwise") {
+        fn=paste0(fileroot,".binhaps")
+    }else if(direction=="snpwise"){
+        fn=paste0(fileroot,".binsnps")
     }else{
-        stop("Invalid major; valid options are \"hap\" or \"snp\"")
+        stop("Invalid direction in writebinhap! options are snpwise or hapwise.")
     }
+    d=paste(haps2hex(dat$data,direction),collapse="")
+    writeLines(d,fn)
+    
     utils::write.table(dat$indinfo,paste0(fileroot,".fam"),
                 quote=FALSE,row.names=FALSE,col.names=FALSE,sep="\t")
     utils::write.table(dat$snpinfo,paste0(fileroot,".bim"),

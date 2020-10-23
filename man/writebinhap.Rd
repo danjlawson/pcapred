@@ -4,14 +4,14 @@
 \alias{writebinhap}
 \title{Convert binary haplotype format to hex formatted output file}
 \usage{
-writebinhap(dat, fileroot, major = "hap")
+writebinhap(dat, fileroot, direction = "snpwise")
 }
 \arguments{
 \item{dat}{an hapmatrix object as created by \code{\link{bedashap}}.}
 
 \item{fileroot}{the file root of the outputs.}
 
-\item{major}{(default="hap") whether to flatten the matrix by reporting each haplotype in sequence, or (if major="snp") each set of 4 snps in sequence.}
+\item{direction}{Either snpwise or hapwise, controls whether we place all values for a snp together (snpwise) or for a haplotype}
 }
 \value{
 NULL invisibly
