@@ -2,7 +2,9 @@
 
 This R package allows you to predict PCA values in the UK Biobank reference data (or your own source of data). It includes key reference data derived from the UK Biobank.
 
-If you are not an R user, or want to use a command line interface, one is provided at https://github.com/danjlawson/pcapred-script .
+If you are not an R user, or want to use a command line interface, one is provided at [pcapred-script](https://github.com/danjlawson/pcapred-script).
+
+You may want [pcapred.largedata with 200 PCs](https://github.com/danjlawson/pcapred.largedata) in the same format as the 18 provided with this package (via the included [pcapred.ref](https://github.com/danjlawson/pcapred.largedata) package).
 
 ## Getting started
 
