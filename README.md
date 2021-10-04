@@ -1,4 +1,4 @@
-# pcapred
+# R package *pcapred*
 
 This R package allows you to predict PCA values in the UK Biobank reference data (or your own source of data). It includes key reference data derived from the UK Biobank.
 
